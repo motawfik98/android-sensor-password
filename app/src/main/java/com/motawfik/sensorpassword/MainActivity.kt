@@ -1,21 +1,18 @@
 package com.motawfik.sensorpassword
 
-import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.motawfik.sensorpassword.databinding.ActivityMainBinding
 
 
@@ -25,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sensorListener: SensorListener
     private lateinit var binding: ActivityMainBinding
     private var animator: ObjectAnimator? = null
+    private val password: String = "312"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +55,30 @@ class MainActivity : AppCompatActivity() {
                     animator.doOnEnd { // wait till the second progress bar finish
                         sensorListener.textView = binding.thirdDigit
                         sensorListener.count = 0
-                        getAnimator(
+                        animator = getAnimator(
                             binding.thirdProgressBar,
                             binding.thirdTextView
                         ) // animate the third progress bar
+                        animator.doOnEnd {
+                            val enteredPassword = "${binding.firstDigit.text}${binding.secondDigit.text}${binding.thirdDigit.text}"
+                            val message: String
+                            val color: Int
+                            val isCorrectPassword = (enteredPassword == password)
+                            if (isCorrectPassword) {
+                                message = "Correct Password!"
+                                color = Color.GREEN
+                            } else {
+                                message = "Wrong password, try again ($enteredPassword)"
+                                color = Color.RED
+                            }
+                            val snackBar = Snackbar.make(
+                                view,
+                                message,
+                                Snackbar.LENGTH_INDEFINITE
+                            ).setAction("DISMISS") {}
+                            snackBar.view.setBackgroundColor(color)
+                            snackBar.show()
+                        }
                     }
                 }
             }

@@ -8,4 +8,5 @@
     <string name="finish">Finished</string>
     <string name="hint_message">The entered password will be displayed at the bottom of the screen</string>
     <string name="fab_description">Start entering the password by shaking the device</string>
+    <string name="tct_password">Your password is 312</string>
 </resources>
