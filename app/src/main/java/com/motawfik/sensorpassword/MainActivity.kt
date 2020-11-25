@@ -49,12 +49,18 @@ class MainActivity : AppCompatActivity() {
         secondTextView = findViewById(R.id.secondTextView)
         thirdTextView = findViewById(R.id.thirdTextView)
 
+        sensorListener.count = 0
         var animator = getAnimator(firstProgressBar, firstTextView) // animate the first circular progress bar
+        sensorListener.textView = findViewById(R.id.firstDigit)
 
         animator.doOnEnd { // wait till the first progress bar finish
+            sensorListener.textView = findViewById(R.id.secondDigit)
+            sensorListener.count = 0
             animator = getAnimator(secondProgressBar, secondTextView) // animate the second circular progress bar
             animator.doOnEnd { // wait till the second progress bar finish
-                getAnimator(thirdProgressbar, thirdTextView) // animate the third progress bar
+                sensorListener.textView = findViewById(R.id.thirdDigit)
+                sensorListener.count = 0
+                animator = getAnimator(thirdProgressbar, thirdTextView) // animate the third progress bar
             }
         }
 
@@ -62,15 +68,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun getAnimator(progressBar: ProgressBar, textView: TextView): ObjectAnimator {
         val animator: ObjectAnimator = ObjectAnimator.ofInt(progressBar, "progress", 100)
-        animator.duration = 1500 // in milliseconds
+        animator.duration = 2500 // in milliseconds
         animator.interpolator = LinearInterpolator()
         animator.start()
         animator.addUpdateListener { updatedAnimation ->
             when (updatedAnimation.animatedValue.toString().toInt()) {
-                in 33..65 -> {
+                in 20..39 -> {
+                    textView.text = getString(R.string.two_seconds)
+                }
+                in 40..59 -> {
+                    textView.text = getString(R.string.one_and_half_seconds)
+                }
+                in 60..79 -> {
                     textView.text = getString(R.string.one_second)
                 }
-                in 66..99 -> {
+                in 80..99 -> {
                     textView.text = getString(R.string.half_second)
                 }
                 100 -> {

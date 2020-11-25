@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Sensor Password</string>
-    <string name="remaining_seconds">1.5s</string>
+    <string name="remaining_seconds">2.5s</string>
+    <string name="two_seconds">2s</string>
+    <string name="one_and_half_seconds">1.5s</string>
     <string name="one_second">1s</string>
     <string name="half_second">0.5s</string>
     <string name="finish">Finished</string>
+    <string name="hint_message">The entered password will be displayed at the bottom of the screen</string>
 </resources>
